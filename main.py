@@ -5,3 +5,4 @@ import streamlit as st
 # Gerar nova tabela com a diferença entre os valores dos registros nos últimos dois meses
 # Multiplicar a diferença com o fator respectivo
 # Gerar tabela final com o preço e consumo
+
