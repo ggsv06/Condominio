@@ -74,7 +74,7 @@ def DF_empty_rows_comb(df):
 # # Retirando Colunas inutilizadas
 
 # %%
-print('█▒▒▒▒▒▒▒▒▒10%')
+
 
 # retirando colunas de meses não marcados para consumo de água
 df_diferença = df_diferença.dropna(how='all', axis=1).round(2)
@@ -344,7 +344,7 @@ for df, comp in zip(lst_df_empresas, lst_empresa):
 # # Enviar emails
 
 # %%
-print('████▒▒▒▒▒▒30%')
+
 import smtplib
 import email
 from email.mime.multipart import MIMEMultipart
@@ -420,7 +420,6 @@ for comp, ecomp in zip(lst_email_empresa, lst_email_email_empresa):
         s.quit()
 
 if len(lst_sucesso) == len(lst_email_empresa):
-    print('██████████100%\n')
-    time.sleep(1)
     for comp, ecomp in zip(lst_email_empresa, lst_email_email_empresa):
         print(f"Email enviado para {ecomp} ({comp}) com sucesso!")
+time.sleep(3)
