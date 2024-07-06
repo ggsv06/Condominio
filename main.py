@@ -1,6 +1,8 @@
 # %%
+#hidden-imports:
+#numpy, pandas, matplotlib
 print('\nCarregando...')
-
+versão = 'V1.0 07/2024'
 import pandas as pd
 import os
 import numpy as np
@@ -126,20 +128,21 @@ df_preço = df_preço.round(2)
 # formatação R$ em um novo DataFrame
 df_preço_formatado = df_preço.loc[:,:]
 df_preço_formatado[lst_meses_uteis] = df_preço_formatado[lst_meses_uteis].map(lambda x: f'R$ {x}')
-df_preço_formatado.loc[max(df_preço_formatado.index) + 2,'Galpões'] = 'V1.0 07/2024 by Gian Gabriel Silva Vianna'
+df_preço_formatado.loc[max(df_preço_formatado.index) + 2,'Galpões'] = f'{versão} by Gian Gabriel Silva Vianna'
 
 # formatação m3 em um novo DataFrame
 df_diferença_formatado = df_diferença.loc[:,:]
 df_diferença_formatado = df_diferença_formatado.round(2)
 df_diferença_formatado[lst_meses_uteis] = df_diferença_formatado[lst_meses_uteis].map(lambda x: f'{x}')
-df_diferença_formatado.loc[max(df_diferença_formatado.index) + 2,'Galpões'] = 'V1.0 07/2024 by Gian Gabriel Silva Vianna'
+df_diferença_formatado.loc[max(df_diferença_formatado.index) + 2,'Galpões'] = f'{versão} by Gian Gabriel Silva Vianna'
 
 # criação de arquivo excel
-with pd.ExcelWriter("Tabela.xlsx", engine="openpyxl") as writer:
+ano = datetime.now().strftime("%Y")
+with pd.ExcelWriter(f"Tabela {ano}.xlsx", engine="openpyxl") as writer:
     df_preço_formatado.to_excel(writer, sheet_name="Custo água", index=False)
 
 # criação de arquivo excel
-with pd.ExcelWriter("Tabela.xlsx", engine="openpyxl", mode="a") as writer:
+with pd.ExcelWriter(f"Tabela {ano}.xlsx", engine="openpyxl", mode="a") as writer:
     df_diferença_formatado.to_excel(writer, sheet_name="Consumo água em m³", index=False)
     
 
@@ -223,7 +226,7 @@ for comp in lst_empresa:
 # %%
 print('Gerando arquivos pdf...')
 
-from reportlab.lib.pagesizes import landscape, A4, A3
+from reportlab.lib.pagesizes import landscape, A3
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image, Spacer
 from reportlab.lib import colors
 from reportlab.lib.units import inch
@@ -316,6 +319,10 @@ for df, comp in zip(lst_df_empresas, lst_empresa):
         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
     ]))
+    # Make the last row bold
+    table.setStyle(TableStyle([
+        ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold')
+    ]))
     elements.append(table)
 
     # Add a spacer for better spacing between table and graph
@@ -334,7 +341,7 @@ for df, comp in zip(lst_df_empresas, lst_empresa):
     pdf_buffer.seek(0)
 
     # Save the PDF to a file
-    with open(f'compartilhamento pdf\{comp}.pdf', 'wb') as f:
+    with open(f'compartilhamento pdf\{comp} - {ano}.pdf', 'wb') as f:
         f.write(pdf_buffer.read())
 
 
@@ -379,7 +386,7 @@ lst_sucesso = []
 for comp, ecomp in zip(lst_email_empresa, lst_email_email_empresa):
     lst_temp = []
     lst_temp = [ecomp] + lst_email_email_retorno
-    filename = f"compartilhamento pdf\{comp}.pdf"
+    filename = f"compartilhamento pdf\{comp} - {ano}.pdf"
 
     corpo_email = f"""
     <p>Segue relatório em anexo.</p>
@@ -422,4 +429,8 @@ for comp, ecomp in zip(lst_email_empresa, lst_email_email_empresa):
 if len(lst_sucesso) == len(lst_email_empresa):
     for comp, ecomp in zip(lst_email_empresa, lst_email_email_empresa):
         print(f"Email enviado para {ecomp} ({comp}) com sucesso!")
+time.sleep(0.5)
+print('\nObrigado por utilizar o primeiro produto de Gian Gabriel Sila Vianna')
+print(versão)
 time.sleep(3)
+print(lst_empresa)
