@@ -176,7 +176,7 @@ for comp in lst_empresa:
     # formatação de R$
     # formatação de m3
     df_preço_temp[lst_meses_uteis] = df_preço_temp[lst_meses_uteis].map(lambda x: f'R$ {round(x, 2)}')
-    df_diferença_temp[lst_meses_uteis] = df_diferença_temp[lst_meses_uteis].map(lambda x: f'{x:.1f}')
+    df_diferença_temp[lst_meses_uteis] = df_diferença_temp[lst_meses_uteis].map(lambda x: f'{x:.1f} m³')
 
     
 
@@ -363,7 +363,7 @@ for df, comp in zip(lst_df_empresas, lst_empresa):
     # Place the legend outside the plot area
     plt.legend(loc='upper left', bbox_to_anchor=(1.0, 1.0))
     fig = plt.gcf()
-    fig.set_size_inches(12, 6)
+    fig.set_size_inches(14, 6)
 
     # Save the graph to a BytesIO object
     graph_buffer = io.BytesIO()
