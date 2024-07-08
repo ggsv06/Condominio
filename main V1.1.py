@@ -2,7 +2,7 @@
 #hidden-imports:
 #numpy, pandas, matplotlib
 print('\nCarregando...')
-versão = 'V1.0 07/2024'
+versão = 'V1.1 07/2024'
 import pandas as pd
 import os
 import numpy as np
