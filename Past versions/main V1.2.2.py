@@ -371,7 +371,7 @@ for df, comp in zip(lst_df_empresas, lst_empresa):
     
     for j, col in enumerate(df_para_grafico.columns.tolist()):
         for i, value in enumerate(df_para_grafico.iloc[:, j]):
-            plt.text(df_para_grafico.index[i], value + offset, f'{value:.2f}', ha='center', va='bottom')
+            plt.text(df_para_grafico.index[i], value + offset, f'{value:.2f}', ha='center', va='bottom', fontsize=12)
     
     
     plt.title(f'Gráfico de consumo de água ({comp})')
